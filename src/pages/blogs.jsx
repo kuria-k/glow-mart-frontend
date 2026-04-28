@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import Whatsapp from "../components/whatsapp";
-import CartSidebar from "../components/CartSidebar";
+import CartSidebar from "../components/cartsidebar";
 import { useCart } from "../hooks/usecart";
 import { useWishlist } from "../hooks/useWishlist";
 

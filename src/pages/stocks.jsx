@@ -1321,7 +1321,7 @@ import Footer from "../components/footer";
 import Whatsapp from "../components/whatsapp";
 import ProductModal from "../components/productmodal";
 // import CartSidebar from "../components/cartsidebar";
-import CartSidebar from '../components/CartSidebar';
+import CartSidebar from '../components/cartsidebar';
 import QuickViewModal from "../components/quickviewmodal";
 // import NewsletterPopup from "../components/newsletterpopup";
 import RecentlyViewed from "../components/recentlyviewed";

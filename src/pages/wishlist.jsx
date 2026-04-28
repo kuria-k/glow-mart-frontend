@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-import CartSidebar from "../components/CartSidebar";
+import CartSidebar from "../components/cartsidebar";
 import { useWishlist } from "../hooks/useWishlist";
 import { useCart } from "../hooks/useCart";
 import { getProduct } from "../api";
