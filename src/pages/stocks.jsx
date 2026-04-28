@@ -1327,7 +1327,7 @@ import QuickViewModal from "../components/quickviewmodal";
 import RecentlyViewed from "../components/recentlyviewed";
 import { getProducts, getCategories, createOrder, checkStock } from "../api";
 import { useCart } from "../hooks/usecart";
-import { useWishlist } from "../hooks/useWishlist";
+import { useWishlist } from "../hooks/usewishlist";
 
 /* ─────────────────────────────────────────────
    THEME STYLES (unchanged)

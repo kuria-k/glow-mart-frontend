@@ -5,7 +5,7 @@ import Footer from "../components/footer";
 import Whatsapp from "../components/whatsapp";
 import CartSidebar from "../components/cartsidebar";
 import { useCart } from "../hooks/usecart";
-import { useWishlist } from "../hooks/useWishlist";
+import { useWishlist } from "../hooks/usewishlist";
 
 // ── Free Makeup API — no key required ──────────────────────────────
 // Returns real beauty product data: name, brand, description, image, link

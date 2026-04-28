@@ -10,7 +10,7 @@ import Style from "../assets/glowing.png";
 import Beach from "../assets/beachs.png";
 import Sleep from "../assets/sonp.png";
 import { useCart } from "../hooks/usecart";
-import { useWishlist } from "../hooks/useWishlist";
+import { useWishlist } from "../hooks/usewishlist";
 import { createPortal } from "react-dom";
 
 function Landing() {
