@@ -1,7 +1,10 @@
 // api.js - JWT Authentication
 import axios from "axios";
 
-const API_BASE = "http://localhost:8000/api";
+// ✅ FIX: Use environment variable with fallback for local development
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+
+console.log("🔗 API_BASE:", API_BASE); // This helps debug which URL is being used
 
 // Helper to get CSRF token
 const getCSRFToken = () => {
@@ -47,6 +50,7 @@ api.interceptors.request.use(
     }
     
     console.log(`📤 ${config.method?.toUpperCase()} ${config.url}`, {
+      baseURL: API_BASE,
       hasAuth: !!config.headers.Authorization,
       hasCSRF: !!config.headers['X-CSRFToken']
     });
@@ -124,7 +128,7 @@ export const login = async (username, password) => {
       // Store user info (you might need to fetch this separately)
       localStorage.setItem('user', JSON.stringify({
         username: username,
-        is_superuser: true,  // You should fetch this from /user/me/
+        is_superuser: true,
         user_id: response.data.user_id,
         isAuthenticated: true
       }));
