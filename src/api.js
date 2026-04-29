@@ -1,8 +1,8 @@
-// api.js - JWT Authentication
+// api.js - CORRECTED VERSION
 import axios from "axios";
 
-// ✅ FIX: Use environment variable for production
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+// ✅ Use VITE_API_BASE (same as components) and include /api in the URL
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000/api";
 
 console.log("🔗 API_BASE:", API_BASE);
 
@@ -185,49 +185,49 @@ export const getUser = () => {
   }
 };
 
-// -------------------- INVENTORY - FIXED WITH /api/ PREFIX --------------------
-export const getProducts = () => api.get('/api/inventory/products/');
-export const getPublicProducts = () => publicApi.get('/api/inventory/public/products/');
-export const getProduct = (id) => api.get(`/api/inventory/products/${id}/`);
-export const createProduct = (data) => api.post('/api/inventory/products/', data);
-export const updateProduct = (id, data) => api.put(`/api/inventory/products/${id}/`, data);
-export const deleteProduct = (id) => api.delete(`/api/inventory/products/${id}/`);
+// -------------------- INVENTORY - REMOVE /api/ PREFIX --------------------
+export const getProducts = () => api.get('/inventory/products/');
+export const getPublicProducts = () => publicApi.get('/inventory/public/products/');
+export const getProduct = (id) => api.get(`/inventory/products/${id}/`);
+export const createProduct = (data) => api.post('/inventory/products/', data);
+export const updateProduct = (id, data) => api.put(`/inventory/products/${id}/`, data);
+export const deleteProduct = (id) => api.delete(`/inventory/products/${id}/`);
 
-// --------------- Category Endpoints - FIXED WITH /api/ PREFIX -------------------
-export const getCategories = () => api.get('/api/inventory/categories/');
-export const getPublicCategories = () => publicApi.get('/api/inventory/public/categories/');
-export const createCategory = (data) => api.post('/api/inventory/categories/', data);
-export const updateCategory = (id, data) => api.put(`/api/inventory/categories/${id}/`, data);
-export const deleteCategory = (id) => api.delete(`/api/inventory/categories/${id}/`);
+// --------------- Category Endpoints - REMOVE /api/ PREFIX -------------------
+export const getCategories = () => api.get('/inventory/categories/');
+export const getPublicCategories = () => publicApi.get('/inventory/public/categories/');
+export const createCategory = (data) => api.post('/inventory/categories/', data);
+export const updateCategory = (id, data) => api.put(`/inventory/categories/${id}/`, data);
+export const deleteCategory = (id) => api.delete(`/inventory/categories/${id}/`);
 
-// --------------- Supplier Endpoints - FIXED WITH /api/ PREFIX ---------------------
-export const getSuppliers = () => api.get('/api/inventory/suppliers/');
-export const createSupplier = (data) => api.post('/api/inventory/suppliers/', data);
-export const updateSupplier = (id, data) => api.put(`/api/inventory/suppliers/${id}/`, data);
-export const deleteSupplier = (id) => api.delete(`/api/inventory/suppliers/${id}/`);
+// --------------- Supplier Endpoints - REMOVE /api/ PREFIX ---------------------
+export const getSuppliers = () => api.get('/inventory/suppliers/');
+export const createSupplier = (data) => api.post('/inventory/suppliers/', data);
+export const updateSupplier = (id, data) => api.put(`/inventory/suppliers/${id}/`, data);
+export const deleteSupplier = (id) => api.delete(`/inventory/suppliers/${id}/`);
 
-// -------------------- ORDERS - FIXED WITH /api/ PREFIX --------------------
-export const getOrders = () => api.get('/api/orders/');
-export const getOrder = (id) => api.get(`/api/orders/${id}/`);
-export const createOrder = (data) => api.post('/api/orders/', data);
-export const updateOrder = (id, data) => api.patch(`/api/orders/${id}/`, data);
-export const deleteOrder = (id) => api.delete(`/api/orders/${id}/`);
+// -------------------- ORDERS - REMOVE /api/ PREFIX --------------------
+export const getOrders = () => api.get('/orders/');
+export const getOrder = (id) => api.get(`/orders/${id}/`);
+export const createOrder = (data) => api.post('/orders/', data);
+export const updateOrder = (id, data) => api.patch(`/orders/${id}/`, data);
+export const deleteOrder = (id) => api.delete(`/orders/${id}/`);
 
-// -------------------- STOCK CHECK - FIXED WITH /api/ PREFIX --------------------
+// -------------------- STOCK CHECK - REMOVE /api/ PREFIX --------------------
 export const checkStock = (productId, quantity) => {
-  return api.get(`/api/inventory/products/${productId}/check-stock/`, { 
+  return api.get(`/inventory/products/${productId}/check-stock/`, { 
     params: { quantity } 
   });
 };
 
 export const getLowStockProducts = () => {
-  return api.get('/api/inventory/products/', {
+  return api.get('/inventory/products/', {
     params: { stock__lt: 10, stock__gt: 0 }
   });
 };
 
 export const getOutOfStockProducts = () => {
-  return api.get('/api/inventory/products/', {
+  return api.get('/inventory/products/', {
     params: { stock: 0 }
   });
 };
