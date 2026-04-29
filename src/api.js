@@ -1,10 +1,10 @@
 // api.js - JWT Authentication
 import axios from "axios";
 
-// ✅ FIX: Use environment variable with fallback for local development
+// ✅ FIX: Use environment variable for production
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
-console.log("🔗 API_BASE:", API_BASE); // This helps debug which URL is being used
+console.log("🔗 API_BASE:", API_BASE);
 
 // Helper to get CSRF token
 const getCSRFToken = () => {
@@ -112,8 +112,7 @@ export const publicApi = axios.create({
 // -------------------- AUTHENTICATION --------------------
 export const login = async (username, password) => {
   try {
-    // Use the JWT token endpoint
-    const response = await publicApi.post('/user/token/', { 
+    const response = await publicApi.post('/api/user/token/', { 
       username, 
       password 
     });
@@ -121,11 +120,9 @@ export const login = async (username, password) => {
     console.log('Login response:', response.data);
     
     if (response.data.access) {
-      // Store JWT tokens
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
       
-      // Store user info (you might need to fetch this separately)
       localStorage.setItem('user', JSON.stringify({
         username: username,
         is_superuser: true,
@@ -157,8 +154,7 @@ export const checkAuth = async () => {
   if (!token) return false;
   
   try {
-    // Verify token by calling a protected endpoint
-    await api.get('/user/me/');
+    await api.get('/api/user/me/');
     return true;
   } catch (error) {
     console.log('Auth check failed:', error.response?.status);
@@ -170,7 +166,6 @@ export const isAuthenticated = () => {
   const token = localStorage.getItem('access_token');
   if (!token) return false;
   
-  // Check if token is expired
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const expired = payload.exp * 1000 < Date.now();
@@ -190,49 +185,49 @@ export const getUser = () => {
   }
 };
 
-// -------------------- INVENTORY --------------------
-export const getProducts = () => api.get('/inventory/products/');
-export const getPublicProducts = () => publicApi.get('/inventory/public/products/');
-export const getProduct = (id) => api.get(`/inventory/products/${id}/`);
-export const createProduct = (data) => api.post('/inventory/products/', data);
-export const updateProduct = (id, data) => api.put(`/inventory/products/${id}/`, data);
-export const deleteProduct = (id) => api.delete(`/inventory/products/${id}/`);
+// -------------------- INVENTORY - FIXED WITH /api/ PREFIX --------------------
+export const getProducts = () => api.get('/api/inventory/products/');
+export const getPublicProducts = () => publicApi.get('/api/inventory/public/products/');
+export const getProduct = (id) => api.get(`/api/inventory/products/${id}/`);
+export const createProduct = (data) => api.post('/api/inventory/products/', data);
+export const updateProduct = (id, data) => api.put(`/api/inventory/products/${id}/`, data);
+export const deleteProduct = (id) => api.delete(`/api/inventory/products/${id}/`);
 
-// --------------- Category Endpoints -------------------
-export const getCategories = () => api.get('/inventory/categories/');
-export const getPublicCategories = () => publicApi.get('/inventory/public/categories/');
-export const createCategory = (data) => api.post('/inventory/categories/', data);
-export const updateCategory = (id, data) => api.put(`/inventory/categories/${id}/`, data);
-export const deleteCategory = (id) => api.delete(`/inventory/categories/${id}/`);
+// --------------- Category Endpoints - FIXED WITH /api/ PREFIX -------------------
+export const getCategories = () => api.get('/api/inventory/categories/');
+export const getPublicCategories = () => publicApi.get('/api/inventory/public/categories/');
+export const createCategory = (data) => api.post('/api/inventory/categories/', data);
+export const updateCategory = (id, data) => api.put(`/api/inventory/categories/${id}/`, data);
+export const deleteCategory = (id) => api.delete(`/api/inventory/categories/${id}/`);
 
-// --------------- Supplier Endpoints ---------------------
-export const getSuppliers = () => api.get('/inventory/suppliers/');
-export const createSupplier = (data) => api.post('/inventory/suppliers/', data);
-export const updateSupplier = (id, data) => api.put(`/inventory/suppliers/${id}/`, data);
-export const deleteSupplier = (id) => api.delete(`/inventory/suppliers/${id}/`);
+// --------------- Supplier Endpoints - FIXED WITH /api/ PREFIX ---------------------
+export const getSuppliers = () => api.get('/api/inventory/suppliers/');
+export const createSupplier = (data) => api.post('/api/inventory/suppliers/', data);
+export const updateSupplier = (id, data) => api.put(`/api/inventory/suppliers/${id}/`, data);
+export const deleteSupplier = (id) => api.delete(`/api/inventory/suppliers/${id}/`);
 
-// -------------------- ORDERS --------------------
-export const getOrders = () => api.get('/orders/');
-export const getOrder = (id) => api.get(`/orders/${id}/`);
-export const createOrder = (data) => api.post('/orders/', data);
-export const updateOrder = (id, data) => api.patch(`/orders/${id}/`, data);
-export const deleteOrder = (id) => api.delete(`/orders/${id}/`);
+// -------------------- ORDERS - FIXED WITH /api/ PREFIX --------------------
+export const getOrders = () => api.get('/api/orders/');
+export const getOrder = (id) => api.get(`/api/orders/${id}/`);
+export const createOrder = (data) => api.post('/api/orders/', data);
+export const updateOrder = (id, data) => api.patch(`/api/orders/${id}/`, data);
+export const deleteOrder = (id) => api.delete(`/api/orders/${id}/`);
 
-// -------------------- STOCK CHECK --------------------
+// -------------------- STOCK CHECK - FIXED WITH /api/ PREFIX --------------------
 export const checkStock = (productId, quantity) => {
-  return api.get(`/inventory/products/${productId}/check-stock/`, { 
+  return api.get(`/api/inventory/products/${productId}/check-stock/`, { 
     params: { quantity } 
   });
 };
 
 export const getLowStockProducts = () => {
-  return api.get('/inventory/products/', {
+  return api.get('/api/inventory/products/', {
     params: { stock__lt: 10, stock__gt: 0 }
   });
 };
 
 export const getOutOfStockProducts = () => {
-  return api.get('/inventory/products/', {
+  return api.get('/api/inventory/products/', {
     params: { stock: 0 }
   });
 };
