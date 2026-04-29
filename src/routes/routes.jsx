@@ -5,7 +5,7 @@ import CartSidebar from "../components/cartsidebar";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import Blogs from "../pages/blogs";
-import Stocks from "../pages/stocks";
+import Stock from "../pages/stocks";
 import About from "../pages/about";
 import Admindash from "../pages/admin/dashboard";
 import Adminninventory from "../pages/admin/inventory";
@@ -31,7 +31,7 @@ function AppRoutes() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/blogs" element={<Blogs />} />
-        <Route path="/stock" element={<Stocks />} />
+        <Route path="/stocks" element={<Stock/>} />
         <Route path="/about" element={<About />} />
         <Route path="/wishlist" element={<Wishlist />} />
 
