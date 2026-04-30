@@ -145,6 +145,11 @@ export const isAuthenticated = () => {
   return !!token;
 };
 
+export const getUser = () => {
+  const user = localStorage.getItem("user");
+  return user ? JSON.parse(user) : null;
+};
+
 // -------------------- INVENTORY --------------------
 export const getProducts = () => api.get("/inventory/products/");
 export const getPublicProducts = () =>
