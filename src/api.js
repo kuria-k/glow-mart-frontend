@@ -140,6 +140,11 @@ export const checkAuth = async () => {
   }
 };
 
+export const isAuthenticated = () => {
+  const token = localStorage.getItem("access_token");
+  return !!token;
+};
+
 // -------------------- INVENTORY --------------------
 export const getProducts = () => api.get("/inventory/products/");
 export const getPublicProducts = () =>
