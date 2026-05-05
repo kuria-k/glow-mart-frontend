@@ -1,5 +1,5 @@
-// pages/Blogs.jsx
-import { useState, useEffect } from "react";
+// pages/Vlogs.jsx
+import { useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import Whatsapp from "../components/whatsapp";
@@ -7,1062 +7,931 @@ import CartSidebar from "../components/cartsidebar";
 import { useCart } from "../hooks/usecart";
 import { useWishlist } from "../hooks/usewishlist";
 
-// ══════════════════════════════════════════════════════════════════
-// EDUCATIONAL VLOGS - SKINCARE, WELLNESS & NUTRITION
-// ══════════════════════════════════════════════════════════════════
+// ── Educational Vlog Content ──────────────────────────────
+// Hardcoded educational content about skincare, wellness, and nutrition
 
 const VLOG_CATEGORIES = [
-  { key: "cleansers",   label: "Cleansers",     icon: "🧼" },
-  { key: "sunscreen",   label: "Sunscreen",     icon: "☀️" },
-  { key: "moisturizer", label: "Moisturizers",  icon: "💧" },
-  { key: "proteins",    label: "Proteins",      icon: "💪" },
-  { key: "vitamins",    label: "Vitamins",      icon: "🌿" },
-  { key: "skincare",    label: "Skin Routines", icon: "✨" },
+  { 
+    id: "cleansers", 
+    label: "Cleansers & Washes", 
+    icon: "🧼",
+    description: "Master the art of proper face washing"
+  },
+  { 
+    id: "sunscreen", 
+    label: "Sun Protection", 
+    icon: "☀️",
+    description: "Your daily defense against aging"
+  },
+  { 
+    id: "oil-control", 
+    label: "Oil Control", 
+    icon: "💧",
+    description: "Balance your skin's natural oils"
+  },
+  { 
+    id: "protein", 
+    label: "Protein & Nutrition", 
+    icon: "💪",
+    description: "Fuel your body from within"
+  },
+  { 
+    id: "moisturizers", 
+    label: "Moisturizers", 
+    icon: "✨",
+    description: "Hydration for every skin type"
+  },
+  { 
+    id: "supplements", 
+    label: "Wellness Supplements", 
+    icon: "🌿",
+    description: "Support your health journey"
+  },
 ];
 
-const EDUCATIONAL_VLOGS = {
-  cleansers: [
-    {
-      id: "c1",
-      title: "CeraVe Hydrating Cleanser: The Science Behind Gentle Cleansing",
-      brand: "CeraVe",
-      category: "Cleansers",
-      thumbnail: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=800&q=80",
-      videoUrl: "#",
-      duration: "8 min read",
-      description: "Understanding ceramides and hyaluronic acid - why CeraVe's hydrating cleanser is perfect for sensitive skin. This cleanser maintains your skin's natural barrier while removing dirt and makeup without stripping essential moisture.",
-      keyPoints: [
-        "Contains 3 essential ceramides (1, 3, 6-II)",
-        "Hyaluronic acid retains moisture",
-        "Non-comedogenic and fragrance-free",
-        "pH-balanced formula (5.5)"
-      ],
-      content: "CeraVe Hydrating Cleanser is formulated with dermatologists and contains three essential ceramides that work together to restore and maintain your skin's natural protective barrier. The addition of hyaluronic acid helps retain skin's natural moisture, making it ideal for normal to dry skin types.",
-      tags: ["sensitive-skin", "dry-skin", "barrier-repair"],
-      date: "2025-05-01"
+// Comprehensive educational content
+const EDUCATIONAL_CONTENT = {
+  cleansers: {
+    title: "The Science of Clean: Choosing Your Perfect Cleanser",
+    hero: {
+      title: "Why Your Cleanser Matters More Than You Think",
+      description: "The first step in any skincare routine, cleansers remove dirt, oil, and impurities while preparing your skin for subsequent products. But not all cleansers are created equal.",
+      image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&q=80",
     },
-    {
-      id: "c2",
-      title: "La Roche-Posay Toleriane: Ultra-Gentle Cleansing for Reactive Skin",
-      brand: "La Roche-Posay",
-      category: "Cleansers",
-      thumbnail: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800&q=80",
-      videoUrl: "#",
-      duration: "7 min read",
-      description: "Deep dive into thermal spring water benefits and why La Roche-Posay is recommended by dermatologists worldwide for sensitive and allergy-prone skin.",
-      keyPoints: [
-        "Prebiotic thermal water soothes skin",
-        "Minimal 9-ingredient formula",
-        "Tested on sensitive skin",
-        "Removes makeup and impurities"
-      ],
-      content: "La Roche-Posay Toleriane Hydrating Gentle Cleanser features a minimalist formula with only 9 ingredients, including their signature prebiotic thermal spring water. This ultra-gentle face wash is specifically designed for sensitive skin that reacts to most products.",
-      tags: ["sensitive-skin", "allergies", "minimal-ingredients"],
-      date: "2025-04-28"
+    products: [
+      {
+        id: "cerave-hydrating",
+        name: "CeraVe Hydrating Facial Cleanser",
+        brand: "CeraVe",
+        description: "A gentle, non-foaming cleanser that removes dirt and makeup without stripping the skin. Formulated with three essential ceramides and hyaluronic acid to hydrate and restore the skin's natural barrier.",
+        image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=800&q=80",
+        benefits: ["Restores skin barrier", "Non-comedogenic", "Fragrance-free", "PH balanced"],
+        skinTypes: ["Dry", "Sensitive", "Normal"],
+        keyIngredients: ["Ceramides", "Hyaluronic Acid", "Niacinamide"],
+      },
+      {
+        id: "la-roche-posay-toleriane",
+        name: "La Roche-Posay Toleriane Hydrating Gentle Cleanser",
+        brand: "La Roche-Posay",
+        description: "A creamy, sulfate-free cleanser that respects sensitive skin while effectively removing impurities and makeup. Formulated with prebiotic thermal water and niacinamide.",
+        image: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=800&q=80",
+        benefits: ["Calms sensitive skin", "Maintains moisture", "Soothes irritation", "Gentle cleansing"],
+        skinTypes: ["Sensitive", "Dry", "Combination"],
+        keyIngredients: ["Prebiotic Thermal Water", "Niacinamide", "Ceramide-3"],
+      },
+      {
+        id: "cerave-foaming",
+        name: "CeraVe Foaming Facial Cleanser",
+        brand: "CeraVe",
+        description: "A gel-like, foaming cleanser that removes excess oil and shine without disrupting the protective skin barrier. Ideal for normal to oily skin types.",
+        image: "https://images.unsplash.com/photo-1556228454-efd3c1e7ad6d?w=800&q=80",
+        benefits: ["Removes excess oil", "Unclogs pores", "Maintains barrier", "Refreshing feel"],
+        skinTypes: ["Oily", "Combination", "Normal"],
+        keyIngredients: ["Ceramides", "Niacinamide", "Hyaluronic Acid"],
+      },
+    ],
+    tips: [
+      "Wash your face twice daily — morning and night",
+      "Use lukewarm water, not hot, to avoid stripping natural oils",
+      "Massage cleanser for 60 seconds for deeper cleaning",
+      "Pat dry with a clean towel, don't rub",
+      "Follow with toner or serum within 60 seconds",
+    ],
+  },
+  sunscreen: {
+    title: "Sun Protection: Your Ultimate Anti-Aging Strategy",
+    hero: {
+      title: "Why Sunscreen is Non-Negotiable",
+      description: "UV radiation is responsible for up to 90% of visible skin aging. Daily sunscreen use protects against skin cancer, prevents hyperpigmentation, and maintains collagen production.",
+      image: "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=800&q=80",
     },
-    {
-      id: "c3",
-      title: "Oil Control Cleansing: Managing Sebum Production Effectively",
-      brand: "Expert Guide",
-      category: "Cleansers",
-      thumbnail: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&q=80",
-      videoUrl: "#",
-      duration: "10 min read",
-      description: "Learn how to control excess oil without over-drying your skin. Understanding sebum regulation and the right ingredients for oily, acne-prone skin.",
-      keyPoints: [
-        "Salicylic acid for pore cleansing",
-        "Niacinamide regulates oil production",
-        "Gentle exfoliation prevents buildup",
-        "pH balance is crucial"
-      ],
-      content: "Managing oily skin requires understanding that stripping all oil can actually trigger more oil production. The key is gentle, balanced cleansing with ingredients like salicylic acid (BHA) that penetrate pores, and niacinamide which regulates sebum without irritation.",
-      tags: ["oily-skin", "acne", "oil-control"],
-      date: "2025-04-25"
-    }
-  ],
-
-  sunscreen: [
-    {
-      id: "s1",
-      title: "La Roche-Posay Anthelios: Understanding SPF & Broad Spectrum Protection",
-      brand: "La Roche-Posay",
-      category: "Sunscreen",
-      thumbnail: "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=800&q=80",
-      videoUrl: "#",
-      duration: "12 min read",
-      description: "Everything you need to know about UVA and UVB protection, PPD ratings, and why La Roche-Posay Anthelios is a dermatologist favorite for daily sun protection.",
-      keyPoints: [
-        "SPF 50+ broad spectrum protection",
-        "UVA-PF rating explained",
-        "Water-resistant formula",
-        "Suitable for sensitive skin"
-      ],
-      content: "La Roche-Posay Anthelios provides high broad-spectrum protection with advanced filter systems. Understanding SPF: it measures UVB protection (sunburn), while PA++++ indicates UVA protection (aging). This sunscreen offers both, plus thermal spring water to soothe skin.",
-      tags: ["sun-protection", "anti-aging", "daily-defense"],
-      date: "2025-05-03"
+    products: [
+      {
+        id: "la-roche-posay-anthelios",
+        name: "La Roche-Posay Anthelios Melt-in Milk SPF 100",
+        brand: "La Roche-Posay",
+        description: "High-protection sunscreen with Cell-Ox Shield technology. Provides broad-spectrum UVA/UVB protection in a lightweight, non-greasy formula that absorbs quickly.",
+        image: "https://images.unsplash.com/photo-1556229010-5a3a9d7b8e9f?w=800&q=80",
+        benefits: ["SPF 100 protection", "Water-resistant (80 min)", "Non-greasy finish", "Antioxidant enriched"],
+        skinTypes: ["All skin types", "Sensitive"],
+        keyIngredients: ["Cell-Ox Shield", "Antioxidants", "Glycerin"],
+      },
+      {
+        id: "cerave-hydrating-sunscreen",
+        name: "CeraVe Hydrating Mineral Sunscreen SPF 50",
+        brand: "CeraVe",
+        description: "100% mineral sunscreen with zinc oxide and titanium dioxide. Provides broad-spectrum protection while hydrating with ceramides and niacinamide.",
+        image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&q=80",
+        benefits: ["Mineral protection", "Hydrating formula", "Sheer finish", "Fragrance-free"],
+        skinTypes: ["Sensitive", "Dry", "Normal"],
+        keyIngredients: ["Zinc Oxide", "Ceramides", "Niacinamide"],
+      },
+      {
+        id: "la-roche-posay-anthelios-clear-skin",
+        name: "La Roche-Posay Anthelios Clear Skin SPF 60",
+        brand: "La Roche-Posay",
+        description: "Oil-free sunscreen specifically designed for oily and acne-prone skin. Contains perlite to absorb excess oil and prevent shine.",
+        image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=800&q=80",
+        benefits: ["Matte finish", "Oil-absorbing", "Non-comedogenic", "Acne-safe"],
+        skinTypes: ["Oily", "Acne-prone", "Combination"],
+        keyIngredients: ["Perlite", "Silica", "Cell-Ox Shield"],
+      },
+    ],
+    tips: [
+      "Apply 15 minutes before sun exposure",
+      "Use 1/2 teaspoon for face and neck",
+      "Reapply every 2 hours, or immediately after swimming",
+      "Don't forget ears, back of neck, and hands",
+      "Use SPF 30 or higher daily, even on cloudy days",
+    ],
+  },
+  "oil-control": {
+    title: "Mastering Oil Control: Balance Without Stripping",
+    hero: {
+      title: "The Truth About Oily Skin",
+      description: "Excess sebum production can lead to clogged pores and breakouts, but harsh products only make things worse. Learn to balance oil production while maintaining a healthy skin barrier.",
+      image: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=800&q=80",
     },
-    {
-      id: "s2",
-      title: "CeraVe Ultra-Light Moisturizing Lotion SPF 30: Daily Defense",
-      brand: "CeraVe",
-      category: "Sunscreen",
-      thumbnail: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=800&q=80",
-      videoUrl: "#",
-      duration: "9 min read",
-      description: "Combining sun protection with skin barrier repair - how CeraVe's formula delivers ceramides and SPF in one lightweight application.",
-      keyPoints: [
-        "Ceramides restore skin barrier",
-        "MVE technology for all-day hydration",
-        "Non-greasy, suitable for face",
-        "Zinc oxide mineral protection"
-      ],
-      content: "CeraVe's AM Facial Moisturizing Lotion combines essential ceramides with broad-spectrum SPF 30 protection. The MVE (MultiVesicular Emulsion) technology provides controlled release of moisturizing ingredients throughout the day, while zinc oxide offers gentle mineral sun protection.",
-      tags: ["daily-sunscreen", "moisturizer", "barrier-repair"],
-      date: "2025-04-30"
+    products: [
+      {
+        id: "cerave-renewing-sa",
+        name: "CeraVe Renewing SA Cleanser",
+        brand: "CeraVe",
+        description: "Salicylic acid cleanser that gently exfoliates and smooths rough, bumpy skin while unclogging pores. Maintains the skin barrier with essential ceramides.",
+        image: "https://images.unsplash.com/photo-1556228454-efd3c1e7ad6d?w=800&q=80",
+        benefits: ["Exfoliates dead skin", "Unclogs pores", "Smooths texture", "Non-drying"],
+        skinTypes: ["Oily", "Acne-prone", "Rough texture"],
+        keyIngredients: ["Salicylic Acid", "Ceramides", "Niacinamide"],
+      },
+      {
+        id: "la-roche-posay-effaclar",
+        name: "La Roche-Posay Effaclar Purifying Foaming Gel",
+        brand: "La Roche-Posay",
+        description: "A purifying gel cleanser for oily skin that removes excess sebum and unclogs pores without over-drying. Soap-free and alcohol-free formula.",
+        image: "https://images.unsplash.com/photo-1556229010-5a3a9d7b8e9f?w=800&q=80",
+        benefits: ["Controls shine", "Purifies pores", "Soap-free", "Matte finish"],
+        skinTypes: ["Oily", "Combination", "Acne-prone"],
+        keyIngredients: ["Zinc PCA", "Thermal Water", "Glycerin"],
+      },
+    ],
+    tips: [
+      "Avoid over-cleansing which triggers more oil production",
+      "Use oil-free, non-comedogenic products",
+      "Consider niacinamide to regulate sebum",
+      "Blotting papers > powder throughout the day",
+      "Hydration is key — dehydrated skin produces more oil",
+    ],
+  },
+  protein: {
+    title: "Protein Power: Building Better Skin, Hair & Body",
+    hero: {
+      title: "Why Protein is Your Beauty Secret Weapon",
+      description: "Protein isn't just for muscles — it's essential for collagen production, hair growth, and skin repair. Learn how proper protein intake transforms your appearance from within.",
+      image: "https://images.unsplash.com/photo-1579722821273-0f6c7f44362f?w=800&q=80",
     },
-    {
-      id: "s3",
-      title: "Mineral vs Chemical Sunscreen: Which Is Right for You?",
-      brand: "Expert Guide",
-      category: "Sunscreen",
-      thumbnail: "https://images.unsplash.com/photo-1564932294833-037a58c90f31?w=800&q=80",
-      videoUrl: "#",
-      duration: "11 min read",
-      description: "Breaking down the science of physical blockers (zinc oxide, titanium dioxide) versus chemical filters - benefits, drawbacks, and how to choose.",
-      keyPoints: [
-        "Mineral: sits on skin surface",
-        "Chemical: absorbs into skin",
-        "Sensitive skin often prefers mineral",
-        "Reef-safe considerations"
-      ],
-      content: "Mineral sunscreens (zinc oxide, titanium dioxide) create a physical barrier that reflects UV rays, making them ideal for sensitive or reactive skin. Chemical sunscreens absorb UV radiation and convert it to heat. Both are effective when applied correctly (2mg per cm² of skin).",
-      tags: ["sunscreen-guide", "ingredient-education", "skin-safety"],
-      date: "2025-04-22"
-    }
-  ],
-
-  moisturizer: [
-    {
-      id: "m1",
-      title: "CeraVe Moisturizing Cream: The Gold Standard in Barrier Repair",
-      brand: "CeraVe",
-      category: "Moisturizers",
-      thumbnail: "https://images.unsplash.com/photo-1570554886111-e80fcca6a029?w=800&q=80",
-      videoUrl: "#",
-      duration: "8 min read",
-      description: "Why this tub is a holy grail product - understanding the ceramide ratio, MVE technology, and how it restores compromised skin barriers.",
-      keyPoints: [
-        "3 essential ceramides in optimal ratio",
-        "MVE delivers 24-hour hydration",
-        "Hyaluronic acid plumps skin",
-        "Suitable for face and body"
-      ],
-      content: "CeraVe Moisturizing Cream contains the optimal 1:1:1 ratio of ceramides 1, 3, and 6-II, mimicking the skin's natural lipid profile. The patented MVE technology creates a moisture barrier that continuously releases hydrating ingredients for 24 hours, making it perfect for dry, compromised skin.",
-      tags: ["dry-skin", "eczema", "barrier-repair"],
-      date: "2025-05-02"
+    products: [
+      {
+        id: "jamieson-whey-protein",
+        name: "Jamieson 100% Whey Protein - Chocolate",
+        brand: "Jamieson",
+        description: "Premium whey protein isolate for clean, fast-absorbing protein. Supports muscle recovery, hair strength, and collagen production. No artificial sweeteners.",
+        image: "https://images.unsplash.com/photo-1579722820304-7a6b4c2c8e7d?w=800&q=80",
+        benefits: ["Muscle recovery", "Hair strength", "Skin repair", "Clean formula"],
+        proteinPerServing: "24g",
+        keyFeatures: ["No artificial flavors", "Gluten-free", "Low sugar"],
+      },
+      {
+        id: "diesel-plant-protein",
+        name: "Diesel Plant Protein - Vanilla",
+        brand: "Diesel",
+        description: "Vegan protein blend from pea, rice, and hemp. Complete amino acid profile for plant-based beauty from within. Contains collagen-supporting vitamin C.",
+        image: "https://images.unsplash.com/photo-1579722820304-7a6b4c2c8e7d?w=800&q=80",
+        benefits: ["Vegan-friendly", "Complete amino acids", "Collagen support", "Easy digestion"],
+        proteinPerServing: "20g",
+        keyFeatures: ["Plant-based", "Dairy-free", "Non-GMO"],
+      },
+      {
+        id: "jamieson-collagen-protein",
+        name: "Jamieson Collagen Protein - Unflavored",
+        brand: "Jamieson",
+        description: "Hydrolyzed bovine collagen peptides that support skin elasticity, joint health, and hair thickness. Dissolves easily in hot or cold liquids.",
+        image: "https://images.unsplash.com/photo-1579722821273-0f6c7f44362f?w=800&q=80",
+        benefits: ["Skin elasticity", "Joint support", "Hair thickness", "Nail strength"],
+        proteinPerServing: "10g collagen",
+        keyFeatures: ["Type I & III collagen", "Unflavored", "Keto-friendly"],
+      },
+    ],
+    tips: [
+      "Aim for 1.6-2.2g protein per kg of body weight daily",
+      "Distribute protein across 3-4 meals for better absorption",
+      "Post-workout protein supports skin repair and recovery",
+      "Collagen needs vitamin C for synthesis",
+      "Plant-based eaters should combine complementary proteins",
+    ],
+  },
+  moisturizers: {
+    title: "Hydration Science: Finding Your Perfect Moisturizer",
+    hero: {
+      title: "Why Every Skin Type Needs Moisture",
+      description: "Even oily skin needs hydration. Discover how the right moisturizer strengthens your skin barrier, prevents water loss, and creates a healthy, resilient complexion.",
+      image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=800&q=80",
     },
-    {
-      id: "m2",
-      title: "La Roche-Posay Toleriane Double Repair: Prebiotic Moisture",
-      brand: "La Roche-Posay",
-      category: "Moisturizers",
-      thumbnail: "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=800&q=80",
-      videoUrl: "#",
-      duration: "9 min read",
-      description: "Exploring the microbiome approach to skincare - how prebiotics support skin's natural defense system and maintain healthy bacterial balance.",
-      keyPoints: [
-        "Prebiotic thermal spring water",
-        "Ceramide-3 for barrier function",
-        "Niacinamide brightens and soothes",
-        "Oil-free, non-comedogenic"
-      ],
-      content: "La Roche-Posay's Double Repair Moisturizer takes a microbiome-friendly approach with prebiotic thermal spring water that nourishes beneficial skin bacteria. Combined with ceramide-3 and niacinamide, it repairs the skin barrier while addressing sensitivity, making it suitable for all skin types including acne-prone.",
-      tags: ["all-skin-types", "microbiome", "sensitive-skin"],
-      date: "2025-04-27"
+    products: [
+      {
+        id: "cerave-moisturizing-cream",
+        name: "CeraVe Moisturizing Cream",
+        brand: "CeraVe",
+        description: "Rich, non-greasy cream with MVE technology for 24-hour hydration. Restores the skin barrier with three essential ceramides.",
+        image: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=800&q=80",
+        benefits: ["24hr hydration", "Barrier restoration", "Non-comedogenic", "Fragrance-free"],
+        texture: "Rich cream",
+        keyIngredients: ["Ceramides", "Hyaluronic Acid", "MVE Technology"],
+      },
+      {
+        id: "la-roche-posay-double-repair",
+        name: "La Roche-Posay Double Repair Moisturizer",
+        brand: "La Roche-Posay",
+        description: "Ceramide- and niacinamide-rich moisturizer that repairs the skin barrier and provides 48-hour hydration. Prebiotic thermal water soothes sensitive skin.",
+        image: "https://images.unsplash.com/photo-1556229010-5a3a9d7b8e9f?w=800&q=80",
+        benefits: ["48hr hydration", "Barrier repair", "Soothes sensitivity", "Oil-free"],
+        texture: "Lightweight cream",
+        keyIngredients: ["Ceramide-3", "Niacinamide", "Prebiotic Water"],
+      },
+      {
+        id: "cerave-pm-lotion",
+        name: "CeraVe PM Facial Moisturizing Lotion",
+        brand: "CeraVe",
+        description: "Ultra-light, oil-free nighttime moisturizer with niacinamide to calm and hydrate. Restores the skin barrier while you sleep.",
+        image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=800&q=80",
+        benefits: ["Oil-free hydration", "Calms skin", "Barrier support", "Non-comedogenic"],
+        texture: "Ultra-light lotion",
+        keyIngredients: ["Niacinamide", "Ceramides", "Hyaluronic Acid"],
+      },
+    ],
+    tips: [
+      "Apply moisturizer to damp skin for better absorption",
+      "Use lighter formulas in summer, richer in winter",
+      "Wait 60 seconds after serums before moisturizing",
+      "Don't skip moisturizer if you have oily skin",
+      "Eye cream should be applied before moisturizer",
+    ],
+  },
+  supplements: {
+    title: "Wellness Supplements: Beauty From Within",
+    hero: {
+      title: "How Supplements Transform Your Skin & Health",
+      description: "Nutritional gaps affect your appearance. Targeted supplements support everything from collagen production to stress management, creating visible improvements in skin, hair, and energy.",
+      image: "https://images.unsplash.com/photo-1579722820304-7a6b4c2c8e7d?w=800&q=80",
     },
-    {
-      id: "m3",
-      title: "Hydration Layers: How to Build an Effective Moisture Routine",
-      brand: "Expert Guide",
-      category: "Moisturizers",
-      thumbnail: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=800&q=80",
-      videoUrl: "#",
-      duration: "10 min read",
-      description: "The Korean skincare approach to layering hydration - from essences to occlusives, understanding humectants, emollients, and occlusives.",
-      keyPoints: [
-        "Humectants attract water (hyaluronic acid)",
-        "Emollients smooth and soften",
-        "Occlusives seal in moisture",
-        "Layer from thinnest to thickest"
-      ],
-      content: "Effective moisturization requires understanding three types of ingredients: humectants (glycerin, hyaluronic acid) draw water into skin; emollients (ceramides, fatty acids) smooth and repair; occlusives (petrolatum, dimethicone) seal everything in. Layer them strategically for maximum hydration.",
-      tags: ["skincare-routine", "hydration", "layering"],
-      date: "2025-04-20"
-    }
-  ],
-
-  proteins: [
-    {
-      id: "p1",
-      title: "Diesel Protein: Complete Amino Acid Profile for Muscle Recovery",
-      brand: "Diesel",
-      category: "Proteins",
-      thumbnail: "https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=800&q=80",
-      videoUrl: "#",
-      duration: "12 min read",
-      description: "Understanding whey protein isolate, BCAAs, and optimal timing for muscle protein synthesis. How Diesel Nutrition delivers premium quality protein.",
-      keyPoints: [
-        "25g protein per serving",
-        "Complete essential amino acid profile",
-        "Fast-absorbing whey isolate",
-        "Post-workout recovery optimized"
-      ],
-      content: "Diesel Whey Protein Isolate provides 25 grams of high-quality protein with minimal carbs and fats. Whey isolate is the purest form of whey protein (90%+ protein), rapidly absorbed post-workout when muscles are primed for growth. Rich in leucine, the key trigger for muscle protein synthesis.",
-      tags: ["muscle-building", "recovery", "fitness"],
-      date: "2025-05-04"
-    },
-    {
-      id: "p2",
-      title: "Protein Intake Guide: How Much Do You Actually Need?",
-      brand: "Expert Guide",
-      category: "Proteins",
-      thumbnail: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80",
-      videoUrl: "#",
-      duration: "15 min read",
-      description: "Science-based protein requirements for different goals - weight loss, muscle gain, athletic performance, and general health maintenance.",
-      keyPoints: [
-        "Sedentary: 0.8g per kg body weight",
-        "Active: 1.4-2.0g per kg",
-        "Athletes: up to 2.2g per kg",
-        "Timing matters for muscle growth"
-      ],
-      content: "Protein needs vary based on activity level and goals. For muscle building, aim for 1.6-2.2g per kg of body weight daily, distributed across 4-5 meals. Post-workout, consume 20-40g within 2 hours. For weight loss, higher protein (2.0-2.4g/kg) preserves muscle mass while in a caloric deficit.",
-      tags: ["nutrition", "muscle-gain", "weight-loss"],
-      date: "2025-04-29"
-    },
-    {
-      id: "p3",
-      title: "Whey vs Casein vs Plant Protein: Complete Comparison",
-      brand: "Expert Guide",
-      category: "Proteins",
-      thumbnail: "https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?w=800&q=80",
-      videoUrl: "#",
-      duration: "13 min read",
-      description: "Breaking down protein sources - absorption rates, amino acid profiles, digestibility, and when to use each type for optimal results.",
-      keyPoints: [
-        "Whey: fast absorption (ideal post-workout)",
-        "Casein: slow release (good before bed)",
-        "Plant: sustainable, complete combos needed",
-        "Digestibility scores explained"
-      ],
-      content: "Whey protein is absorbed within 1-2 hours, making it ideal post-workout. Casein takes 6-8 hours, providing steady amino acids overnight. Plant proteins (pea, rice, hemp) can match whey when combined properly for complete amino acid profiles. Choose based on timing, dietary needs, and goals.",
-      tags: ["protein-types", "nutrition-guide", "supplementation"],
-      date: "2025-04-24"
-    }
-  ],
-
-  vitamins: [
-    {
-      id: "v1",
-      title: "Jamieson Vitamin D3: The Sunshine Vitamin Explained",
-      brand: "Jamieson",
-      category: "Vitamins",
-      thumbnail: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800&q=80",
-      videoUrl: "#",
-      duration: "10 min read",
-      description: "Why 80% of people are deficient in Vitamin D - understanding bone health, immune function, and mood regulation with Jamieson's pharmaceutical-grade D3.",
-      keyPoints: [
-        "1000-4000 IU daily recommended",
-        "D3 more effective than D2",
-        "Supports bone density and immunity",
-        "Take with fat for absorption"
-      ],
-      content: "Vitamin D3 (cholecalciferol) is essential for calcium absorption, immune function, and mood regulation. Jamieson's D3 provides bioavailable supplementation crucial for those with limited sun exposure. Most adults need 1000-2000 IU daily; those with deficiency may require 4000 IU under medical supervision.",
-      tags: ["immunity", "bone-health", "supplements"],
-      date: "2025-05-01"
-    },
-    {
-      id: "v2",
-      title: "Jamieson Omega-3: Essential Fatty Acids for Brain & Heart Health",
-      brand: "Jamieson",
-      category: "Vitamins",
-      thumbnail: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800&q=80",
-      videoUrl: "#",
-      duration: "11 min read",
-      description: "Understanding EPA and DHA - the omega-3s your body can't produce. How Jamieson's purified fish oil supports cardiovascular health and cognitive function.",
-      keyPoints: [
-        "EPA reduces inflammation",
-        "DHA supports brain function",
-        "1000-2000mg combined daily",
-        "Purified to remove contaminants"
-      ],
-      content: "Omega-3 fatty acids (EPA and DHA) are essential nutrients from fish oil that your body cannot synthesize. EPA primarily supports cardiovascular health and reduces inflammation, while DHA is crucial for brain structure and function. Jamieson's purified omega-3 provides pharmaceutical-grade purity without fishy aftertaste.",
-      tags: ["heart-health", "brain-health", "omega-3"],
-      date: "2025-04-26"
-    },
-    {
-      id: "v3",
-      title: "Complete Multivitamin Guide: What Your Body Actually Needs",
-      brand: "Expert Guide",
-      category: "Vitamins",
-      thumbnail: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=800&q=80",
-      videoUrl: "#",
-      duration: "14 min read",
-      description: "Comprehensive breakdown of essential vitamins and minerals - recommended daily allowances, deficiency symptoms, and how to choose quality supplements.",
-      keyPoints: [
-        "Essential vitamins A, B-complex, C, D, E, K",
-        "Key minerals: calcium, magnesium, zinc, iron",
-        "Bioavailability matters more than dose",
-        "Food first, supplement gaps"
-      ],
-      content: "A quality multivitamin should provide B-complex for energy, vitamin D for immunity, magnesium for muscle and nerve function, and zinc for immune support. Look for methylated B vitamins (methylcobalamin, methylfolate) for better absorption. Remember: supplements complement a healthy diet, they don't replace it.",
-      tags: ["multivitamin", "nutrition", "wellness"],
-      date: "2025-04-23"
-    }
-  ],
-
-  skincare: [
-    {
-      id: "r1",
-      title: "The Perfect Morning Skincare Routine: A Dermatologist's Approach",
-      brand: "Expert Guide",
-      category: "Skin Routines",
-      thumbnail: "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=800&q=80",
-      videoUrl: "#",
-      duration: "12 min read",
-      description: "Step-by-step AM routine for healthy, protected skin - from cleansing to SPF, featuring CeraVe and La Roche-Posay products.",
-      keyPoints: [
-        "1. Gentle cleanser (CeraVe Hydrating)",
-        "2. Antioxidant serum (Vitamin C)",
-        "3. Moisturizer with ceramides",
-        "4. Broad spectrum SPF 30+"
-      ],
-      content: "Morning Routine: (1) Cleanse with CeraVe Hydrating to remove overnight oils without stripping. (2) Apply antioxidant serum like Vitamin C to protect against free radicals. (3) Lock in with La Roche-Posay Toleriane moisturizer. (4) Finish with broad-spectrum SPF - non-negotiable daily protection. Wait 1-2 minutes between steps.",
-      tags: ["morning-routine", "skincare-basics", "sun-protection"],
-      date: "2025-05-03"
-    },
-    {
-      id: "r2",
-      title: "Evening Repair Routine: Maximize Overnight Skin Recovery",
-      brand: "Expert Guide",
-      category: "Skin Routines",
-      thumbnail: "https://images.unsplash.com/photo-1617897903246-719242758050?w=800&q=80",
-      videoUrl: "#",
-      duration: "13 min read",
-      description: "Nighttime is when skin repairs itself - learn how to support natural regeneration with active ingredients and barrier-supporting products.",
-      keyPoints: [
-        "1. Double cleanse to remove SPF",
-        "2. Treatment actives (retinol/acids)",
-        "3. Hydrating essence or serum",
-        "4. Rich moisturizer to seal"
-      ],
-      content: "Evening Routine: (1) Oil cleanse then CeraVe Foaming for thorough cleansing. (2) Apply treatment (retinol 2-3x/week for beginners). (3) Layer hyaluronic acid serum on damp skin. (4) Seal with CeraVe Moisturizing Cream - the tub is ideal for overnight barrier repair. Skin regenerates during sleep; support it properly.",
-      tags: ["evening-routine", "retinol", "anti-aging"],
-      date: "2025-04-28"
-    },
-    {
-      id: "r3",
-      title: "Acne-Prone Skin: Building a Routine That Actually Works",
-      brand: "Expert Guide",
-      category: "Skin Routines",
-      thumbnail: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&q=80",
-      videoUrl: "#",
-      duration: "15 min read",
-      description: "Managing breakouts without destroying your skin barrier - the balance of exfoliation, hydration, and patience.",
-      keyPoints: [
-        "Gentle cleansing prevents over-drying",
-        "Salicylic acid or benzoyl peroxide",
-        "Don't skip moisturizer",
-        "Consistency over intensity"
-      ],
-      content: "Acne-prone routine requires balance. Morning: CeraVe Foaming Cleanser, La Roche-Posay Effaclar Duo (2.5% benzoyl peroxide), oil-free moisturizer, SPF. Evening: Same cleanser, salicylic acid treatment (alternate nights), niacinamide serum, gel moisturizer. Don't over-exfoliate - this triggers more oil production. Takes 8-12 weeks to see results.",
-      tags: ["acne", "oily-skin", "problem-skin"],
-      date: "2025-04-21"
-    }
-  ]
+    products: [
+      {
+        id: "jamieson-vitamin-c",
+        name: "Jamieson Vitamin C 1000mg Timed Release",
+        brand: "Jamieson",
+        description: "Timed-release vitamin C that provides all-day immune support and collagen synthesis. Essential for skin repair and antioxidant protection.",
+        image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800&q=80",
+        benefits: ["Collagen synthesis", "Immune support", "Antioxidant", "Skin repair"],
+        dosage: "1000mg timed release",
+        keyFeatures: ["Vegetarian", "No artificial colors", "Timed release"],
+      },
+      {
+        id: "jamieson-biotin",
+        name: "Jamieson Biotin 10,000mcg",
+        brand: "Jamieson",
+        description: "High-potency biotin for stronger hair, nails, and skin. Supports keratin production and cellular energy metabolism.",
+        image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800&q=80",
+        benefits: ["Hair growth", "Nail strength", "Skin health", "Energy metabolism"],
+        dosage: "10,000mcg",
+        keyFeatures: ["Ultra strength", "Vegetarian", "Gluten-free"],
+      },
+      {
+        id: "jamieson-omega-3",
+        name: "Jamieson Omega-3 Fish Oil",
+        brand: "Jamieson",
+        description: "Molecularly distilled fish oil rich in EPA and DHA. Reduces inflammation, supports skin hydration, and promotes heart and brain health.",
+        image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800&q=80",
+        benefits: ["Skin hydration", "Anti-inflammatory", "Heart health", "Brain function"],
+        dosage: "900mg Omega-3",
+        keyFeatures: ["Molecularly distilled", "Enteric coated", "No fishy aftertaste"],
+      },
+    ],
+    tips: [
+      "Take fat-soluble vitamins (A,D,E,K) with meals containing fat",
+      "Consistency is more important than quantity",
+      "Start one supplement at a time to assess tolerance",
+      "Consult healthcare provider before starting new supplements",
+      "Quality matters — look for third-party testing",
+    ],
+  },
 };
 
-// Editorial headlines that rotate
-const EDITORIAL_HEADLINES = [
-  { title: "Science-Backed Skincare", sub: "Evidence-based approaches to skin health and wellness" },
-  { title: "Ingredient Deep Dives", sub: "Understanding what you put on your skin and in your body" },
-  { title: "Expert Education", sub: "Dermatologist-approved routines and nutritional guidance" },
-  { title: "Wellness Intelligence", sub: "Holistic health through smart skincare and nutrition" },
-];
-
-export default function Blogs() {
-  const [isCartOpen, setIsCartOpen]       = useState(false);
-  const [activeTab, setActiveTab]         = useState("cleansers");
-  const [search, setSearch]               = useState("");
-  const [featuredVlog, setFeaturedVlog]   = useState(null);
+export default function Vlogs() {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("cleansers");
+  const [search, setSearch] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const { cart, updateQuantity, removeFromCart, cartTotal, cartCount } = useCart();
   const { wishlist } = useWishlist();
 
-  // Random headline
-  const headline = EDITORIAL_HEADLINES[
-    Math.floor(Math.random() * EDITORIAL_HEADLINES.length)
-  ];
+  const currentContent = EDUCATIONAL_CONTENT[activeCategory];
+  const products = currentContent?.products || [];
 
-  // Set featured vlog on mount
-  useEffect(() => {
-    const allVlogs = Object.values(EDUCATIONAL_VLOGS).flat();
-    const featured = allVlogs[Math.floor(Math.random() * allVlogs.length)];
-    setFeaturedVlog(featured);
-  }, []);
-
-  // Get current tab vlogs
-  const vlogs = EDUCATIONAL_VLOGS[activeTab] || [];
-
-  // Filter vlogs based on search
-  const filtered = search.trim()
-    ? vlogs.filter(v =>
-        v.title.toLowerCase().includes(search.toLowerCase()) ||
-        v.brand.toLowerCase().includes(search.toLowerCase()) ||
-        v.content.toLowerCase().includes(search.toLowerCase()) ||
-        v.tags.some(tag => tag.toLowerCase().includes(search.toLowerCase()))
+  const filteredProducts = search.trim()
+    ? products.filter(p => 
+        p.name.toLowerCase().includes(search.toLowerCase()) ||
+        p.brand.toLowerCase().includes(search.toLowerCase())
       )
-    : vlogs;
+    : products;
 
-  const hero = filtered[0] || null;
-  const grid = filtered.slice(1);
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    setShowModal(true);
+  };
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap');
         
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        .vlog-root {
-          background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
-          font-family: 'Inter', sans-serif;
-          color: #1a1a1a;
-          min-height: 100vh;
+        *, *::before, *::after { box-sizing: border-box; }
+        
+        .vlog-root { 
+          background: linear-gradient(135deg, #faf8f4 0%, #f5f0ea 100%); 
+          font-family: 'Jost', sans-serif; 
+          color: #2c2c2c; 
+          min-height: 100vh; 
         }
-
-        /* ══ HEADER ══ */
-        .vlog-header {
-          padding: 120px 0 70px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white;
+        
+        /* Header */
+        .vlog-header { 
+          padding: 100px 0 60px; 
           position: relative;
           overflow: hidden;
         }
+        
         .vlog-header::before {
           content: '';
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><circle cx="1" cy="1" r="1" fill="white" opacity="0.1"/></svg>');
-          opacity: 0.3;
-        }
-        .vlog-eyebrow {
-          font-size: 11px;
-          letter-spacing: 0.25em;
-          font-weight: 500;
-          margin-bottom: 20px;
-          opacity: 0.9;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-        .vlog-eyebrow::before {
-          content: '';
-          width: 40px;
-          height: 2px;
-          background: rgba(255,255,255,0.5);
-        }
-        .vlog-h1 {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(48px, 7vw, 88px);
-          font-weight: 400;
-          line-height: 1.1;
-          letter-spacing: -0.02em;
-          margin-bottom: 24px;
-        }
-        .vlog-h1 em {
-          font-style: italic;
-          font-weight: 500;
-          color: #ffd700;
-        }
-        .vlog-header-sub {
-          font-size: 16px;
-          font-weight: 300;
-          line-height: 1.7;
-          max-width: 540px;
-          opacity: 0.95;
-        }
-
-        /* ══ SEARCH ══ */
-        .vlog-search-wrap {
-          position: relative;
-          max-width: 420px;
-        }
-        .vlog-search {
-          width: 100%;
-          padding: 14px 50px 14px 20px;
-          border: 2px solid rgba(255,255,255,0.3);
-          background: rgba(255,255,255,0.15);
-          backdrop-filter: blur(10px);
-          font-family: 'Inter', sans-serif;
-          font-size: 14px;
-          font-weight: 400;
-          color: white;
-          border-radius: 12px;
-          outline: none;
-          transition: all 0.3s;
-        }
-        .vlog-search::placeholder {
-          color: rgba(255,255,255,0.6);
-        }
-        .vlog-search:focus {
-          background: rgba(255,255,255,0.25);
-          border-color: rgba(255,255,255,0.5);
-        }
-        .vlog-search-icon {
-          position: absolute;
-          right: 16px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: rgba(255,255,255,0.7);
+          top: -50%;
+          right: -20%;
+          width: 60%;
+          height: 200%;
+          background: radial-gradient(circle, rgba(184,155,123,0.03) 0%, transparent 70%);
           pointer-events: none;
         }
-
-        /* ══ TABS ══ */
-        .vlog-tabs-container {
+        
+        .vlog-eyebrow {
+          font-size: 10px; 
+          letter-spacing: .35em; 
+          color: #b89b7b; 
+          font-weight: 300;
+          margin-bottom: 20px; 
+          display: flex; 
+          align-items: center; 
+          gap: 14px;
+        }
+        
+        .vlog-eyebrow::before, .vlog-eyebrow::after {
+          content: ''; 
+          display: block; 
+          width: 40px; 
+          height: 1px;
+          background: #b89b7b; 
+          opacity: .4;
+        }
+        
+        .vlog-h1 {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: clamp(44px, 6vw, 85px);
+          font-weight: 200; 
+          line-height: 1.05; 
+          letter-spacing: -.02em; 
+          color: #2c2c2c;
+          margin-bottom: 20px;
+          max-width: 800px;
+        }
+        
+        .vlog-h1 em { 
+          font-style: italic; 
+          color: #b89b7b; 
+          font-weight: 300;
+        }
+        
+        .vlog-header-sub { 
+          font-size: 14px; 
+          font-weight: 300; 
+          color: #9a8c7e; 
+          line-height: 1.8; 
+          max-width: 480px; 
+        }
+        
+        /* Search */
+        .vlog-search-wrap { 
+          position: relative; 
+          max-width: 360px; 
+        }
+        
+        .vlog-search {
+          width: 100%; 
+          padding: 12px 44px 12px 18px;
+          border: 1px solid #e8d9c8; 
           background: white;
-          border-bottom: 2px solid #f0f0f0;
-          position: sticky;
-          top: 0;
-          z-index: 100;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+          font-family: 'Jost', sans-serif; 
+          font-size: 13px; 
+          font-weight: 300;
+          color: #2c2c2c; 
+          outline: none;
+          transition: all .25s;
+          border-radius: 0;
         }
-        .vlog-tabs {
+        
+        .vlog-search:focus { 
+          border-color: #b89b7b; 
+          box-shadow: 0 2px 8px rgba(184,155,123,0.1);
+        }
+        
+        /* Category Tabs */
+        .vlog-categories {
           display: flex;
-          gap: 0;
-          overflow-x: auto;
-          scrollbar-width: none;
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 0 40px;
+          gap: 8px;
+          flex-wrap: wrap;
+          margin-bottom: 48px;
+          padding-bottom: 24px;
+          border-bottom: 1px solid #e8d9c8;
         }
-        .vlog-tabs::-webkit-scrollbar {
-          display: none;
-        }
-        .vlog-tab {
-          padding: 18px 28px;
-          font-size: 13px;
-          letter-spacing: 0.05em;
-          font-weight: 500;
-          color: #666;
-          background: none;
-          border: none;
+        
+        .vlog-category-btn {
+          padding: 12px 28px;
+          font-size: 11px;
+          letter-spacing: .18em;
+          font-weight: 400;
+          background: transparent;
+          border: 1px solid #e0d5c8;
           cursor: pointer;
-          transition: all 0.3s;
-          white-space: nowrap;
-          border-bottom: 3px solid transparent;
+          transition: all .25s;
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
+          font-family: 'Jost', sans-serif;
+          color: #8a7a6a;
         }
-        .vlog-tab:hover {
-          color: #667eea;
-          background: rgba(102,126,234,0.05);
+        
+        .vlog-category-btn:hover {
+          border-color: #b89b7b;
+          color: #b89b7b;
         }
-        .vlog-tab.active {
-          color: #667eea;
-          border-bottom-color: #667eea;
-          background: rgba(102,126,234,0.08);
+        
+        .vlog-category-btn.active {
+          background: #b89b7b;
+          border-color: #b89b7b;
+          color: white;
         }
-
-        /* ══ FEATURED ══ */
-        .vlog-featured {
+        
+        /* Hero Section */
+        .vlog-hero {
           display: grid;
-          grid-template-columns: 1.2fr 1fr;
+          grid-template-columns: 1fr 1fr;
+          gap: 48px;
+          margin-bottom: 72px;
           background: white;
-          border-radius: 24px;
+          border: 1px solid #e8d9c8;
           overflow: hidden;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-          text-decoration: none;
-          margin-bottom: 60px;
-          transition: transform 0.4s, box-shadow 0.4s;
         }
-        .vlog-featured:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 16px 48px rgba(102,126,234,0.15);
-        }
-        .vlog-featured-img {
-          height: 500px;
+        
+        .vlog-hero-image {
+          height: 480px;
           overflow: hidden;
-          position: relative;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        .vlog-featured-img img {
+        
+        .vlog-hero-image img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-          opacity: 0.9;
-          mix-blend-mode: luminosity;
         }
-        .vlog-featured:hover .vlog-featured-img img {
-          transform: scale(1.08);
-        }
-        .vlog-featured-badge {
-          position: absolute;
-          top: 24px;
-          left: 24px;
-          background: rgba(255,215,0,0.95);
-          backdrop-filter: blur(8px);
-          color: #1a1a1a;
-          font-size: 10px;
-          letter-spacing: 0.2em;
-          font-weight: 600;
-          padding: 8px 18px;
-          border-radius: 20px;
-        }
-        .vlog-featured-duration {
-          position: absolute;
-          bottom: 24px;
-          right: 24px;
-          background: rgba(0,0,0,0.7);
-          backdrop-filter: blur(8px);
-          color: white;
-          font-size: 12px;
-          padding: 8px 16px;
-          border-radius: 20px;
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
-        .vlog-featured-body {
-          padding: 60px;
+        
+        .vlog-hero-content {
+          padding: 60px 52px;
           display: flex;
           flex-direction: column;
           justify-content: center;
         }
-        .vlog-featured-cat {
-          font-size: 11px;
-          letter-spacing: 0.2em;
-          color: #667eea;
-          font-weight: 600;
+        
+        .vlog-hero-category {
+          font-size: 9px;
+          letter-spacing: .28em;
+          color: #b89b7b;
           margin-bottom: 16px;
           text-transform: uppercase;
         }
-        .vlog-featured-title {
+        
+        .vlog-hero-title {
           font-family: 'Cormorant Garamond', serif;
           font-size: 38px;
-          font-weight: 500;
-          color: #1a1a1a;
-          line-height: 1.3;
+          font-weight: 300;
+          color: #2c2c2c;
+          line-height: 1.2;
           margin-bottom: 20px;
         }
-        .vlog-featured-desc {
-          font-size: 15px;
-          font-weight: 400;
-          color: #666;
+        
+        .vlog-hero-description {
+          font-size: 14px;
+          font-weight: 300;
+          color: #777;
           line-height: 1.8;
           margin-bottom: 28px;
         }
-        .vlog-featured-brand {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 12px;
-          font-weight: 500;
-          color: #1a1a1a;
-          background: #f8f9fa;
-          padding: 8px 16px;
-          border-radius: 20px;
-          margin-bottom: 24px;
-          align-self: flex-start;
+        
+        /* Products Grid */
+        .vlog-grid-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 28px;
+          font-weight: 300;
+          margin-bottom: 32px;
+          letter-spacing: -.01em;
         }
-        .vlog-read-more {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          font-size: 13px;
-          letter-spacing: 0.05em;
-          font-weight: 600;
-          color: #667eea;
-          border-bottom: 2px solid #667eea;
-          padding-bottom: 4px;
-          align-self: flex-start;
-          transition: all 0.3s;
-        }
-        .vlog-featured:hover .vlog-read-more {
-          gap: 14px;
-          color: #764ba2;
-          border-color: #764ba2;
-        }
-
-        /* ══ GRID ══ */
+        
         .vlog-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
           gap: 32px;
+          margin-bottom: 64px;
         }
-        .vlog-card {
+        
+        .vlog-product-card {
           background: white;
-          border-radius: 20px;
+          border: 1px solid #e8d9c8;
           overflow: hidden;
-          box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-          text-decoration: none;
-          transition: all 0.4s;
-          display: flex;
-          flex-direction: column;
+          transition: all .3s ease;
+          cursor: pointer;
         }
-        .vlog-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 12px 32px rgba(102,126,234,0.12);
+        
+        .vlog-product-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 32px rgba(44,44,44,0.08);
         }
-        .vlog-card-img {
-          height: 220px;
+        
+        .vlog-product-image {
+          height: 260px;
           overflow: hidden;
           position: relative;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        .vlog-card-img img {
+        
+        .vlog-product-image img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-          opacity: 0.85;
-          mix-blend-mode: luminosity;
+          transition: transform .5s ease;
         }
-        .vlog-card:hover .vlog-card-img img {
-          transform: scale(1.1);
-          opacity: 0.95;
+        
+        .vlog-product-card:hover .vlog-product-image img {
+          transform: scale(1.05);
         }
-        .vlog-card-tag {
+        
+        .vlog-product-brand {
           position: absolute;
-          top: 16px;
-          left: 16px;
-          background: rgba(255,255,255,0.95);
-          backdrop-filter: blur(8px);
-          font-size: 10px;
-          letter-spacing: 0.15em;
-          color: #667eea;
-          font-weight: 600;
-          padding: 6px 14px;
-          border-radius: 16px;
+          top: 12px;
+          left: 12px;
+          background: rgba(250,247,242,.95);
+          padding: 4px 12px;
+          font-size: 9px;
+          letter-spacing: .2em;
+          color: #b89b7b;
         }
-        .vlog-card-duration {
-          position: absolute;
-          bottom: 16px;
-          right: 16px;
-          background: rgba(0,0,0,0.7);
-          backdrop-filter: blur(8px);
-          color: white;
-          font-size: 11px;
-          padding: 6px 12px;
-          border-radius: 16px;
+        
+        .vlog-product-body {
+          padding: 24px;
         }
-        .vlog-card-body {
-          padding: 28px;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-        }
-        .vlog-card-brand {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 11px;
-          font-weight: 600;
-          color: #667eea;
-          background: rgba(102,126,234,0.1);
-          padding: 6px 12px;
-          border-radius: 12px;
-          margin-bottom: 14px;
-          align-self: flex-start;
-        }
-        .vlog-card-title {
+        
+        .vlog-product-name {
           font-family: 'Cormorant Garamond', serif;
-          font-size: 22px;
-          font-weight: 500;
-          color: #1a1a1a;
-          line-height: 1.35;
-          margin-bottom: 14px;
-        }
-        .vlog-card-desc {
-          font-size: 13px;
+          font-size: 20px;
           font-weight: 400;
-          color: #666;
-          line-height: 1.75;
-          flex: 1;
-          margin-bottom: 20px;
+          margin-bottom: 12px;
+          color: #2c2c2c;
         }
-        .vlog-card-tags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 6px;
+        
+        .vlog-product-description {
+          font-size: 12px;
+          color: #888;
+          line-height: 1.6;
           margin-bottom: 16px;
         }
-        .vlog-card-tags span {
-          font-size: 9px;
-          letter-spacing: 0.05em;
-          color: #999;
-          background: #f8f9fa;
-          padding: 4px 10px;
-          border-radius: 10px;
+        
+        .vlog-product-benefits {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-bottom: 16px;
         }
-        .vlog-card-arrow {
-          font-size: 12px;
-          font-weight: 600;
-          color: #667eea;
+        
+        .vlog-benefit-tag {
+          font-size: 9px;
+          padding: 3px 8px;
+          background: #f5f0ea;
+          color: #b89b7b;
+          letter-spacing: .05em;
+        }
+        
+        .vlog-read-more {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 10px;
+          letter-spacing: .2em;
+          color: #2c2c2c;
+          border-bottom: 1px solid #e0d5c8;
+          padding-bottom: 3px;
+          transition: all .2s;
+        }
+        
+        .vlog-product-card:hover .vlog-read-more {
+          color: #b89b7b;
+          border-color: #b89b7b;
+        }
+        
+        /* Tips Section */
+        .vlog-tips {
+          background: #f5f0ea;
+          padding: 48px;
+          margin-top: 48px;
+        }
+        
+        .vlog-tips-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 24px;
+          font-weight: 300;
+          margin-bottom: 28px;
           display: flex;
           align-items: center;
-          gap: 6px;
-          transition: gap 0.3s;
+          gap: 12px;
         }
-        .vlog-card:hover .vlog-card-arrow {
+        
+        .vlog-tips-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+          gap: 20px;
+        }
+        
+        .vlog-tip-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          font-size: 13px;
+          color: #555;
+          line-height: 1.6;
+        }
+        
+        .vlog-tip-bullet {
+          color: #b89b7b;
+          font-size: 18px;
+          line-height: 1;
+        }
+        
+        /* Modal */
+        .vlog-modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0,0,0,0.8);
+          backdrop-filter: blur(8px);
+          z-index: 1000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+        }
+        
+        .vlog-modal {
+          background: white;
+          max-width: 900px;
+          width: 100%;
+          max-height: 85vh;
+          overflow-y: auto;
+          position: relative;
+        }
+        
+        .vlog-modal-close {
+          position: absolute;
+          top: 20px;
+          right: 24px;
+          font-size: 28px;
+          cursor: pointer;
+          color: #999;
+          transition: color .2s;
+          z-index: 10;
+        }
+        
+        .vlog-modal-close:hover { color: #2c2c2c; }
+        
+        .vlog-modal-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 32px;
+        }
+        
+        .vlog-modal-image {
+          height: 100%;
+          min-height: 400px;
+        }
+        
+        .vlog-modal-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        
+        .vlog-modal-content {
+          padding: 40px 40px 40px 0;
+        }
+        
+        .vlog-modal-brand {
+          font-size: 9px;
+          letter-spacing: .28em;
+          color: #b89b7b;
+          margin-bottom: 12px;
+        }
+        
+        .vlog-modal-name {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 32px;
+          font-weight: 300;
+          margin-bottom: 20px;
+        }
+        
+        .vlog-modal-desc {
+          font-size: 13px;
+          color: #666;
+          line-height: 1.8;
+          margin-bottom: 24px;
+        }
+        
+        .vlog-modal-section {
+          margin-bottom: 24px;
+        }
+        
+        .vlog-modal-section-title {
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: .1em;
+          margin-bottom: 12px;
+          color: #b89b7b;
+        }
+        
+        .vlog-modal-tags {
+          display: flex;
+          flex-wrap: wrap;
           gap: 10px;
         }
-
-        /* ══ RESULTS COUNT ══ */
-        .vlog-results {
-          font-size: 13px;
-          color: #999;
-          letter-spacing: 0.03em;
-          margin-bottom: 32px;
-          font-weight: 500;
+        
+        .vlog-modal-tag {
+          font-size: 11px;
+          padding: 4px 12px;
+          background: #f5f0ea;
+          color: #5a4a3a;
         }
-        .vlog-results span {
-          color: #667eea;
-          font-weight: 600;
+        
+        @media (max-width: 900px) {
+          .vlog-hero { grid-template-columns: 1fr; gap: 0; }
+          .vlog-hero-image { height: 320px; }
+          .vlog-hero-content { padding: 36px 28px; }
+          .vlog-header { padding: 70px 0 40px; }
+          .vlog-modal-grid { grid-template-columns: 1fr; }
+          .vlog-modal-content { padding: 0 32px 32px 32px; }
         }
-
-        /* ══ LOADING / EMPTY ══ */
-        .vlog-center {
-          text-align: center;
-          padding: 100px 0;
-        }
-        .vlog-empty-icon {
-          font-size: 64px;
-          margin-bottom: 20px;
-          opacity: 0.3;
-        }
-
-        /* ══ RESPONSIVE ══ */
-        @media (max-width: 1024px) {
-          .vlog-featured {
-            grid-template-columns: 1fr;
-          }
-          .vlog-featured-img {
-            height: 320px;
-          }
-          .vlog-featured-body {
-            padding: 40px;
-          }
-        }
-        @media (max-width: 768px) {
-          .vlog-header {
-            padding: 100px 0 60px;
-          }
-          .vlog-featured-body {
-            padding: 32px;
-          }
-          .vlog-featured-title {
-            font-size: 28px;
-          }
-          .vlog-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-        @media (max-width: 480px) {
-          .vlog-tabs {
-            padding: 0 20px;
-          }
-          .vlog-featured-body {
-            padding: 24px;
-          }
+        
+        @media (max-width: 640px) {
+          .vlog-grid { grid-template-columns: 1fr; }
+          .vlog-categories { gap: 6px; }
+          .vlog-category-btn { padding: 8px 18px; font-size: 9px; }
         }
       `}</style>
 
-      {/* ══ NAVBAR ══ */}
       <Navbar
         cartCount={cartCount}
         onCartClick={() => setIsCartOpen(true)}
         wishlistCount={wishlist.length}
+        onMenuToggle={() => {}}
       />
 
       <div className="vlog-root">
-        {/* ══ HEADER ══ */}
-        <header className="vlog-header">
-          <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 40px", position: "relative", zIndex: 1 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 32 }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px" }}>
+          
+          {/* Header */}
+          <header className="vlog-header">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24 }}>
               <div>
-                <div className="vlog-eyebrow">EDUCATIONAL WELLNESS JOURNAL</div>
+                <div className="vlog-eyebrow">THE WELLNESS & SKINCARE VLOG</div>
                 <h1 className="vlog-h1">
-                  {headline.title.split(" ").slice(0, -1).join(" ")} <em>{headline.title.split(" ").slice(-1)}</em>
+                  Educate. <em>Elevate.</em><br />
+                  Transform.
                 </h1>
-                <p className="vlog-header-sub">{headline.sub}</p>
+                <p className="vlog-header-sub">
+                  Expert insights on skincare, nutrition, and wellness — 
+                  because true beauty starts with knowledge.
+                </p>
               </div>
-
-              {/* Search */}
+              
               <div className="vlog-search-wrap">
                 <input
                   className="vlog-search"
                   type="text"
-                  placeholder="Search topics, brands, ingredients..."
+                  placeholder="Search products, brands..."
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                 />
-                <span className="vlog-search-icon">
-                  <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <circle cx="11" cy="11" r="8"/>
-                    <path d="M21 21l-4.35-4.35"/>
-                  </svg>
-                </span>
               </div>
             </div>
-          </div>
-        </header>
+          </header>
 
-        {/* ══ TABS ══ */}
-        <div className="vlog-tabs-container">
-          <div className="vlog-tabs">
+          {/* Category Tabs */}
+          <div className="vlog-categories">
             {VLOG_CATEGORIES.map(cat => (
               <button
-                key={cat.key}
-                className={`vlog-tab${activeTab === cat.key ? " active" : ""}`}
-                onClick={() => { setActiveTab(cat.key); setSearch(""); }}
+                key={cat.id}
+                className={`vlog-category-btn${activeCategory === cat.id ? " active" : ""}`}
+                onClick={() => { setActiveCategory(cat.id); setSearch(""); }}
               >
                 <span>{cat.icon}</span>
-                {cat.label.toUpperCase()}
+                {cat.label}
               </button>
             ))}
           </div>
-        </div>
 
-        {/* ══ CONTENT ══ */}
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "60px 40px 120px" }}>
-          
-          {/* Results count */}
-          {filtered.length > 0 && (
-            <p className="vlog-results">
-              Showing <span>{filtered.length}</span> educational article{filtered.length !== 1 ? "s" : ""}
-              {search && <> matching "<span>{search}</span>"</>}
-            </p>
-          )}
-
-          {/* Featured */}
-          {hero && (
-            <a
-              href={hero.videoUrl}
-              className="vlog-featured"
-              onClick={e => {
-                if (hero.videoUrl === "#") e.preventDefault();
-              }}
-            >
-              <div className="vlog-featured-img">
-                <img src={hero.thumbnail} alt={hero.title} />
-                <div className="vlog-featured-badge">FEATURED ARTICLE</div>
-                <div className="vlog-featured-duration">
-                  <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 6v6l4 2"/>
-                  </svg>
-                  {hero.duration}
+          {/* Main Content */}
+          {currentContent && (
+            <>
+              {/* Hero Section */}
+              <div className="vlog-hero">
+                <div className="vlog-hero-image">
+                  <img src={currentContent.hero.image} alt={currentContent.hero.title} />
+                </div>
+                <div className="vlog-hero-content">
+                  <div className="vlog-hero-category">
+                    {VLOG_CATEGORIES.find(c => c.id === activeCategory)?.label}
+                  </div>
+                  <h2 className="vlog-hero-title">{currentContent.hero.title}</h2>
+                  <p className="vlog-hero-description">{currentContent.hero.description}</p>
                 </div>
               </div>
-              <div className="vlog-featured-body">
-                <p className="vlog-featured-cat">{hero.category}</p>
-                <h2 className="vlog-featured-title">{hero.title}</h2>
-                <p className="vlog-featured-desc">{hero.description}</p>
-                <span className="vlog-featured-brand">
-                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                  </svg>
-                  {hero.brand}
-                </span>
-                <span className="vlog-read-more">
-                  READ FULL ARTICLE
-                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </span>
-              </div>
-            </a>
-          )}
 
-          {/* Grid */}
-          {grid.length > 0 && (
-            <div className="vlog-grid">
-              {grid.map(vlog => (
-                <a
-                  key={vlog.id}
-                  href={vlog.videoUrl}
-                  className="vlog-card"
-                  onClick={e => {
-                    if (vlog.videoUrl === "#") e.preventDefault();
-                  }}
-                >
-                  <div className="vlog-card-img">
-                    <img src={vlog.thumbnail} alt={vlog.title} />
-                    <div className="vlog-card-tag">{vlog.category.toUpperCase()}</div>
-                    <div className="vlog-card-duration">{vlog.duration}</div>
+              {/* Products Grid */}
+              {filteredProducts.length > 0 && (
+                <>
+                  <h3 className="vlog-grid-title">
+                    Featured Products
+                    {search && <span style={{ fontSize: 14, marginLeft: 12, color: "#b89b7b" }}>({filteredProducts.length} results)</span>}
+                  </h3>
+                  <div className="vlog-grid">
+                    {filteredProducts.map(product => (
+                      <div key={product.id} className="vlog-product-card" onClick={() => handleProductClick(product)}>
+                        <div className="vlog-product-image">
+                          <img src={product.image} alt={product.name} />
+                          <div className="vlog-product-brand">{product.brand}</div>
+                        </div>
+                        <div className="vlog-product-body">
+                          <h4 className="vlog-product-name">{product.name}</h4>
+                          <p className="vlog-product-description">{product.description.slice(0, 100)}...</p>
+                          {product.benefits && (
+                            <div className="vlog-product-benefits">
+                              {product.benefits.slice(0, 3).map((benefit, i) => (
+                                <span key={i} className="vlog-benefit-tag">{benefit}</span>
+                              ))}
+                            </div>
+                          )}
+                          <div className="vlog-read-more">
+                            LEARN MORE 
+                            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                              <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div className="vlog-card-body">
-                    <span className="vlog-card-brand">
-                      <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                        <circle cx="12" cy="7" r="4"/>
-                      </svg>
-                      {vlog.brand}
-                    </span>
-                    <h3 className="vlog-card-title">{vlog.title}</h3>
-                    <p className="vlog-card-desc">{vlog.description.slice(0, 120)}...</p>
-                    <div className="vlog-card-tags">
-                      {vlog.tags.slice(0, 3).map(tag => (
-                        <span key={tag}>#{tag}</span>
-                      ))}
-                    </div>
-                    <span className="vlog-card-arrow">
-                      Read More
-                      <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                      </svg>
-                    </span>
-                  </div>
-                </a>
-              ))}
-            </div>
-          )}
+                </>
+              )}
 
-          {/* No results */}
-          {filtered.length === 0 && (
-            <div className="vlog-center">
-              <div className="vlog-empty-icon">🔍</div>
-              <p style={{ fontSize: 18, color: "#666", marginBottom: 12 }}>
-                No articles found for "{search}"
-              </p>
-              <button
-                onClick={() => setSearch("")}
-                style={{
-                  marginTop: 20,
-                  fontSize: 13,
-                  fontWeight: 600,
-                  letterSpacing: "0.05em",
-                  color: "white",
-                  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                  border: "none",
-                  padding: "14px 32px",
-                  borderRadius: "12px",
-                  cursor: "pointer",
-                  transition: "transform 0.2s",
-                }}
-                onMouseEnter={e => e.target.style.transform = "translateY(-2px)"}
-                onMouseLeave={e => e.target.style.transform = "translateY(0)"}
-              >
-                CLEAR SEARCH
-              </button>
-            </div>
+              {/* Tips Section */}
+              {currentContent.tips && (
+                <div className="vlog-tips">
+                  <div className="vlog-tips-title">
+                    <span>💡</span> Expert Tips & Best Practices
+                  </div>
+                  <div className="vlog-tips-list">
+                    {currentContent.tips.map((tip, i) => (
+                      <div key={i} className="vlog-tip-item">
+                        <span className="vlog-tip-bullet">✦</span>
+                        <span>{tip}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -1070,7 +939,6 @@ export default function Blogs() {
       <Whatsapp />
       <Footer />
 
-      {/* Cart Sidebar */}
       <CartSidebar
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
@@ -1079,6 +947,70 @@ export default function Blogs() {
         onRemoveItem={removeFromCart}
         total={cartTotal}
       />
+
+      {/* Product Modal */}
+      {showModal && selectedProduct && (
+        <div className="vlog-modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="vlog-modal" onClick={e => e.stopPropagation()}>
+            <div className="vlog-modal-close" onClick={() => setShowModal(false)}>✕</div>
+            <div className="vlog-modal-grid">
+              <div className="vlog-modal-image">
+                <img src={selectedProduct.image} alt={selectedProduct.name} />
+              </div>
+              <div className="vlog-modal-content">
+                <div className="vlog-modal-brand">{selectedProduct.brand}</div>
+                <h2 className="vlog-modal-name">{selectedProduct.name}</h2>
+                <p className="vlog-modal-desc">{selectedProduct.description}</p>
+                
+                {selectedProduct.benefits && (
+                  <div className="vlog-modal-section">
+                    <div className="vlog-modal-section-title">KEY BENEFITS</div>
+                    <div className="vlog-modal-tags">
+                      {selectedProduct.benefits.map((benefit, i) => (
+                        <span key={i} className="vlog-modal-tag">{benefit}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {selectedProduct.keyIngredients && (
+                  <div className="vlog-modal-section">
+                    <div className="vlog-modal-section-title">KEY INGREDIENTS</div>
+                    <div className="vlog-modal-tags">
+                      {selectedProduct.keyIngredients.map((ing, i) => (
+                        <span key={i} className="vlog-modal-tag">{ing}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {selectedProduct.skinTypes && (
+                  <div className="vlog-modal-section">
+                    <div className="vlog-modal-section-title">BEST FOR</div>
+                    <div className="vlog-modal-tags">
+                      {selectedProduct.skinTypes.map((type, i) => (
+                        <span key={i} className="vlog-modal-tag">{type}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {selectedProduct.proteinPerServing && (
+                  <div className="vlog-modal-section">
+                    <div className="vlog-modal-section-title">NUTRITION</div>
+                    <div className="vlog-modal-tags">
+                      <span className="vlog-modal-tag">{selectedProduct.proteinPerServing} protein</span>
+                      {selectedProduct.keyFeatures?.map((feature, i) => (
+                        <span key={i} className="vlog-modal-tag">{feature}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
